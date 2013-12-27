@@ -67,13 +67,35 @@ namespace CheckersRules
             }
         }
 
+        private void SetCell(string cellStr)
+        {
+            if (cellStr.Length != 3) throw new Exception("Wrong format: " + cellStr);
+            int vertical = Constants.CoordinateCharacters.IndexOf(cellStr[1]);
+            if (vertical == -1)
+                throw new Exception("Wrong vertical char: " + cellStr);
+            int horizontal = Convert.ToInt32(cellStr.Substring(2, 1)) - 1;
+            if (horizontal < 1 || horizontal > 8)
+                throw new Exception("Wrong horizontal char: " + cellStr);
+            _board[horizontal * BOARD_SIZE + vertical].Piece = GetPieceByChar(cellStr[0]);
+            _board[horizontal*BOARD_SIZE + vertical].PieceColor = GetPieceColorByChar(cellStr[0]);
+        }
+
+        #endregion
+
+        #region Auxilliary Methods
+
+        private Cell GetCellByXY(int x, int y)
+        {
+            return _board[(y - 1)*BOARD_SIZE + x - 1];
+        }
+
         private Piece GetPieceByChar(char c)
         {
             switch (c)
             {
                 case 'w':
                 case 'b': return Piece.Simple;
-                case 'W': 
+                case 'W':
                 case 'B': return Piece.King;
                 default:
                     throw new Exception("Wrong piece char: " + c);
@@ -91,30 +113,6 @@ namespace CheckersRules
                 default:
                     throw new Exception("Wrong piece char: " + c);
             }
-        }
-
-        private void SetCell(string cellStr)
-        {
-            if (cellStr.Length != 3) throw new Exception("Wrong format: " + cellStr);
-            int vertical = Constants.CoordinateCharacters.IndexOf(cellStr[1]);
-            if (vertical == -1)
-                throw new Exception("Wrong vertical char: " + cellStr);
-            int horizontal = Convert.ToInt32(cellStr.Substring(2, 1)) - 1;
-            if (horizontal < 1 || horizontal > 8)
-                throw new Exception("Wrong horizontal char: " + cellStr);
-            _board[horizontal * BOARD_SIZE + vertical].Piece = GetPieceByChar(cellStr[0]);
-            _board[horizontal*BOARD_SIZE + vertical].PieceColor = GetPieceColorByChar(cellStr[0]);
-        }
-
-        #endregion
-
-        #region public Methods
-
-        
-
-        private Cell GetCellByXY(int x, int y)
-        {
-            return _board[(y - 1)*BOARD_SIZE + x - 1];
         }
 
         #endregion

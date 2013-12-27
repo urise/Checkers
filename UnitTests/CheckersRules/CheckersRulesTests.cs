@@ -43,6 +43,5 @@ namespace UnitTests.CheckersRules
             var moves = rules.GetMoveList();
             CollectionAssert.AreEquivalent(new List<string> { "b4-d6", "e3-g5", "g3-e5" }, moves);
         }
-        
     }
 }
