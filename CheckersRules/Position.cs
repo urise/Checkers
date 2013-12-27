@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CheckersRules
 {
-    public class Position
+    internal class Position
     {
         #region Private Members
 
@@ -15,16 +15,37 @@ namespace CheckersRules
 
         #endregion
 
-        #region Public Members
+        #region public Members
 
-        public void SetPosition(string position)
+        public void SetPosition(string position, string currentColor)
         {
-            var parts = position.Split(' ');
-            if (parts.Length == 0) throw new Exception("Position cannot be empty");
+            if (string.IsNullOrEmpty(position)) throw new Exception("Position cannot be empty");
+            if (string.IsNullOrEmpty(currentColor)) throw new Exception("Current color cannot be empty");
+            
             ClearPosition();
-            SetMoveOrder(parts[0]);
-            for (int i = 1; i < parts.Length; i++)
-                SetCell(parts[i]);
+            CurrentColor = GetPieceColorByChar(currentColor[0]);
+
+            var parts = position.Split(';');
+            foreach (var part in parts)
+                SetCell(part);
+        }
+
+        public IEnumerable<Cell> GetCurrentColorCells()
+        {
+            return _board.Where(r => r.PieceColor == CurrentColor);
+        }
+
+        public IEnumerable<Cell> GetPossibleSimpleMoves(Cell cell)
+        {
+            var result = new List<Cell>();
+
+            if (cell.X > 1 && cell.Y < BOARD_SIZE)
+                result.Add(GetCellByXY(cell.X - 1, cell.Y + 1));
+
+            if (cell.X < BOARD_SIZE && cell.Y < BOARD_SIZE)
+                result.Add(GetCellByXY(cell.X + 1, cell.Y + 1));
+
+            return result;
         }
 
         public PieceColor CurrentColor { get; private set; }
@@ -32,21 +53,6 @@ namespace CheckersRules
         #endregion
 
         #region Set Position Methods
-
-        private void SetMoveOrder(string moveOrder)
-        {
-            switch (moveOrder)
-            {
-                case "w":
-                    CurrentColor = PieceColor.White;
-                    break;
-                case "b":
-                    CurrentColor = PieceColor.Black;
-                    break;
-                default:
-                    throw new Exception("Wrong move order format");
-            }
-        }
 
         private void ClearPosition()
         {
@@ -100,25 +106,9 @@ namespace CheckersRules
 
         #endregion
 
-        #region Public Methods
+        #region public Methods
 
-        public IEnumerable<Cell> GetCurrentColorCells()
-        {
-            return _board.Where(r => r.PieceColor == CurrentColor);
-        }
-
-        public IEnumerable<Cell> GetPossibleSimpleMoves(Cell cell)
-        {
-            var result = new List<Cell>();
-
-            if (cell.X > 1 && cell.Y < BOARD_SIZE)
-                result.Add(GetCellByXY(cell.X - 1, cell.Y + 1));
-
-            if (cell.X < BOARD_SIZE && cell.Y < BOARD_SIZE)
-                result.Add(GetCellByXY(cell.X + 1, cell.Y + 1));
-
-            return result;
-        }
+        
 
         private Cell GetCellByXY(int x, int y)
         {

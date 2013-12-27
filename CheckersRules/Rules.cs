@@ -16,9 +16,9 @@ namespace CheckersRules
 
         #region Public Methods
 
-        public Rules(string position)
+        public Rules(string position, string currentColor)
         {
-            _position.SetPosition(position);
+            _position.SetPosition(position, currentColor);
         }
 
         public List<string> GetMoveList()

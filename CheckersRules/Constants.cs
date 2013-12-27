@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace CheckersRules
 {
-    public enum Piece
+    internal enum Piece
     {
         Empty,
         Simple,
         King
     };
 
-    public enum PieceColor
+    internal enum PieceColor
     {
         Empty,
         White,
         Black
     }
 
-    public struct Cell
+    internal struct Cell
     {
         public int X;
         public int Y;
@@ -33,7 +33,7 @@ namespace CheckersRules
         }
     }
 
-    public class Constants
+    internal class Constants
     {
         public const string CoordinateCharacters = "abcdefgh";
     }
