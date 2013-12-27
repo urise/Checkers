@@ -45,8 +45,8 @@ namespace CheckersRules
             for (int i = 0; i < BOARD_SIZE; i++)
                 for (int j = 0; j < BOARD_SIZE; j++)
                 {
-                    if (PieceOfCurrentColor(i+1, j+1))
-                        result.AddRange(GetMoveList(i, j, false));
+                    if (PieceOfCurrentColor(i, j))
+                        result.AddRange(GetMoveList(i+1, j+1, false));
                 }
             return result;
         }
@@ -125,7 +125,8 @@ namespace CheckersRules
         private IEnumerable<string> GetSimpleMoveList(int x, int y, bool killOnly)
         {
             var result = new List<string>();
-
+            AddSimpleMoveListByDirection(result, x, y, killOnly, -1, 1);
+            AddSimpleMoveListByDirection(result, x, y, killOnly, 1, 1);
             return result;
         }
 
@@ -138,7 +139,7 @@ namespace CheckersRules
 
         private string CoordinatesToString(int x1, int y1)
         {
-            return "abcdefgh"[x1] + y1.ToString();
+            return "abcdefgh"[x1-1] + y1.ToString();
         }
 
         private IEnumerable<string> GetKingMoveList(int i, int j, bool killOnly)
