@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkers", "Checkers\Checkers.csproj", "{C08182F7-3679-406E-9E8F-AD59B4109B12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckersRules", "CheckersRules\CheckersRules.csproj", "{4387A319-34AC-45FF-9340-9FBE2A49E380}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{269FBFC2-4408-445C-9B42-CA28BB05A570}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C08182F7-3679-406E-9E8F-AD59B4109B12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C08182F7-3679-406E-9E8F-AD59B4109B12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C08182F7-3679-406E-9E8F-AD59B4109B12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C08182F7-3679-406E-9E8F-AD59B4109B12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4387A319-34AC-45FF-9340-9FBE2A49E380}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4387A319-34AC-45FF-9340-9FBE2A49E380}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4387A319-34AC-45FF-9340-9FBE2A49E380}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4387A319-34AC-45FF-9340-9FBE2A49E380}.Release|Any CPU.Build.0 = Release|Any CPU
+		{269FBFC2-4408-445C-9B42-CA28BB05A570}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{269FBFC2-4408-445C-9B42-CA28BB05A570}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{269FBFC2-4408-445C-9B42-CA28BB05A570}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{269FBFC2-4408-445C-9B42-CA28BB05A570}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
