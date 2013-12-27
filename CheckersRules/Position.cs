@@ -38,12 +38,14 @@ namespace CheckersRules
         public IEnumerable<Cell> GetPossibleSimpleMoves(Cell cell)
         {
             var result = new List<Cell>();
+            int direction = CurrentColor == PieceColor.White ? 1 : -1;
+
 
             if (cell.X > 1 && cell.Y < BOARD_SIZE)
-                result.Add(GetCellByXY(cell.X - 1, cell.Y + 1));
+                result.Add(GetCellByXY(cell.X - 1, cell.Y + direction));
 
             if (cell.X < BOARD_SIZE && cell.Y < BOARD_SIZE)
-                result.Add(GetCellByXY(cell.X + 1, cell.Y + 1));
+                result.Add(GetCellByXY(cell.X + 1, cell.Y + direction));
 
             return result;
         }
