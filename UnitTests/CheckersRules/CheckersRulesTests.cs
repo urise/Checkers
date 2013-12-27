@@ -17,7 +17,7 @@ namespace UnitTests.CheckersRules
         {
             var rules = new Rules("w wd4");
             var moves = rules.GetMoveList();
-            CollectionAssert.AreEquivalent(new List<string>{"c5", "e5"}, moves);
+            CollectionAssert.AreEquivalent(new List<string>{"d4-c5", "d4-e5"}, moves);
         }
     }
 }

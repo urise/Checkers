@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Position.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Rules.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
