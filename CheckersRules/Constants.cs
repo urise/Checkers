@@ -48,6 +48,22 @@ namespace CheckersRules
             get { return Coordinates.Y; }
             set { Coordinates.Y = value; }
         }
+
+        public override string ToString()
+        {
+            return Coordinates.ToString();
+        }
+
+        public bool IsOppositeColor(PieceColor color)
+        {
+            return PieceColor != PieceColor.Empty && PieceColor != color;
+        }
+    }
+
+    internal struct TakeMove
+    {
+        public Coordinates CellToMove;
+        public Coordinates CellTaken;
     }
 
     internal class Constants

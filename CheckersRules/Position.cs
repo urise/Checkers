@@ -115,6 +115,27 @@ namespace CheckersRules
             }
         }
 
+        private bool IsLegalCoordinates(int x, int y)
+        {
+            return x > 1 && x <= BOARD_SIZE && y > 1 && y <= BOARD_SIZE;
+        }
+
         #endregion
+
+        public IEnumerable<Cell> GetCellByDirection(Cell cell, int dirX, int dirY, int distance)
+        {
+            int x = cell.X + dirX;
+            int y = cell.Y + dirY;
+            int n = 0;
+            var result = new List<Cell>();
+            while (IsLegalCoordinates(x, y) && n < distance)
+            {
+                result.Add(GetCellByXY(x, y));
+                x += dirX;
+                y += dirY;
+                n++;
+            }
+            return result;
+        }
     }
 }
