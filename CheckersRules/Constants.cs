@@ -20,16 +20,33 @@ namespace CheckersRules
         Black
     }
 
-    internal struct Cell
+    internal struct Coordinates
     {
         public int X;
         public int Y;
-        public Piece Piece;
-        public PieceColor PieceColor;
 
         public override string ToString()
         {
             return Constants.CoordinateCharacters[X - 1] + Y.ToString();
+        }
+    }
+
+    internal struct Cell
+    {
+        public Coordinates Coordinates;
+        public Piece Piece;
+        public PieceColor PieceColor;
+
+        public int X
+        {
+            get { return Coordinates.X; }
+            set { Coordinates.X = value; }
+        }
+
+        public int Y
+        {
+            get { return Coordinates.Y; }
+            set { Coordinates.Y = value; }
         }
     }
 
