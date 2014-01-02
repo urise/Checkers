@@ -39,9 +39,17 @@ namespace UnitTests.CheckersRules
         [Test]
         public void OneStepTakeSimpleTest()
         {
-            var rules = new Rules("wb4;we3;wg3;ba5;bc5;bd4;bf4", "w");
+            var rules = new Rules("wb4;we3;wg3;ba5;bc5;bd4;bf4;bc3;bd2", "w");
             var moves = rules.GetMoveList();
             CollectionAssert.AreEquivalent(new List<string> { "b4-d6", "e3-g5", "g3-e5" }, moves);
+        }
+
+        [Test]
+        public void ChainTakeSimpleTest()
+        {
+            var rules = new Rules("bb2;wc3;we5;we3", "b");
+            var moves = rules.GetMoveList();
+            CollectionAssert.AreEquivalent(new List<string> { "b2-d4-f6", "b2-d4-f2" }, moves);
         }
     }
 }

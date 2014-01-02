@@ -54,21 +54,46 @@ namespace CheckersRules
 
         private void AddTakeMoves(List<string> moves, Cell cell)
         {
-            int distance = cell.Piece == Piece.King ? 8 : 2;
-            var takeMoves = new List<TakeMove>();
+            AddTakeMoves(moves, cell, new List<Coordinates>(), string.Empty);
+        }
+
+        private void AddTakeMoves(List<string> moves, Cell cell, List<Coordinates> alreadyTaken, string path)
+        {
+            var takeMoves = GetSingleTakeMoves(cell, alreadyTaken);
+            if (takeMoves.Count == 0 && !string.IsNullOrEmpty(path))
+            {
+                moves.Add(path);
+                return;
+            }
             
-            AddTakeMoves(takeMoves, cell, -1, -1, distance);
-            AddTakeMoves(takeMoves, cell, -1,  1, distance);
-            AddTakeMoves(takeMoves, cell,  1, -1, distance);
-            AddTakeMoves(takeMoves, cell,  1,  1, distance);
+            if (string.IsNullOrEmpty(path)) path = cell.ToString();
 
             foreach (var takeMove in takeMoves)
             {
-                moves.Add(cell.ToString() + "-" + takeMove.CellToMove.ToString());
+                var newAlreadyTaken = new List<Coordinates>(alreadyTaken);
+                newAlreadyTaken.Add(takeMove.CellTaken);
+
+                var newCell = new Cell
+                    {Coordinates = takeMove.CellToMove, PieceColor = cell.PieceColor, Piece = cell.Piece};
+
+                AddTakeMoves(moves, newCell, newAlreadyTaken, path + "-" + takeMove.CellToMove.ToString());
             }
         }
 
-        private void AddTakeMoves(List<TakeMove> takeMoves, Cell cell, int dirX, int dirY, int distance)
+        private List<TakeMove> GetSingleTakeMoves(Cell cell, List<Coordinates> alreadyTaken)
+        {
+            int distance = cell.Piece == Piece.King ? 8 : 2;
+            var result = new List<TakeMove>();
+
+            AddTakeMoves(result, cell, -1, -1, distance, alreadyTaken);
+            AddTakeMoves(result, cell, -1, 1, distance, alreadyTaken);
+            AddTakeMoves(result, cell, 1, -1, distance, alreadyTaken);
+            AddTakeMoves(result, cell, 1, 1, distance, alreadyTaken);
+
+            return result;
+        }
+
+        private void AddTakeMoves(List<TakeMove> takeMoves, Cell cell, int dirX, int dirY, int distance, List<Coordinates> alreadyTaken)
         {
             var cells = _position.GetCellByDirection(cell, dirX, dirY, distance);
             bool isTaken = false;
@@ -85,8 +110,9 @@ namespace CheckersRules
                 {
                     if (moveCell.IsOppositeColor(cell.PieceColor))
                     {
+                        if (alreadyTaken.Contains(moveCell.Coordinates)) break;
                         isTaken = true;
-                        cellTaken = cell.Coordinates;
+                        cellTaken = moveCell.Coordinates;
                     }
                 }
             }
