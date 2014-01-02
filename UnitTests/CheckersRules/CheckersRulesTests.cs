@@ -51,5 +51,13 @@ namespace UnitTests.CheckersRules
             var moves = rules.GetMoveList();
             CollectionAssert.AreEquivalent(new List<string> { "b2-d4-f6", "b2-d4-f2" }, moves);
         }
+
+        [Test]
+        public void ChainTakeSimpleTest2()
+        {
+            var rules = new Rules("wd4;be5;bg5;bg3;be3;bc5", "w");
+            var moves = rules.GetMoveList();
+            CollectionAssert.AreEquivalent(new List<string> { "d4-f6-h4-f2-d4-b6", "d4-f2-h4-f6-d4-b6", "d4-b6" }, moves);
+        }
     }
 }

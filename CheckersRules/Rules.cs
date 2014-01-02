@@ -54,7 +54,9 @@ namespace CheckersRules
 
         private void AddTakeMoves(List<string> moves, Cell cell)
         {
+            _position.SetColor(cell.Coordinates, PieceColor.Empty);
             AddTakeMoves(moves, cell, new List<Coordinates>(), string.Empty);
+            _position.SetColor(cell.Coordinates, cell.PieceColor);
         }
 
         private void AddTakeMoves(List<string> moves, Cell cell, List<Coordinates> alreadyTaken, string path)

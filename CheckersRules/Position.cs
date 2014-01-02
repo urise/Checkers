@@ -86,7 +86,17 @@ namespace CheckersRules
 
         private Cell GetCellByXY(int x, int y)
         {
-            return _board[(y - 1)*BOARD_SIZE + x - 1];
+            return _board[GetIndexByXY(x, y)];
+        }
+
+        private int GetIndexByXY(int x, int y)
+        {
+            return (y - 1)*BOARD_SIZE + x - 1;
+        }
+
+        private int GetIndexByCoordinates(Coordinates coordinates)
+        {
+            return GetIndexByXY(coordinates.X, coordinates.Y);
         }
 
         private Piece GetPieceByChar(char c)
@@ -120,8 +130,6 @@ namespace CheckersRules
             return x > 1 && x <= BOARD_SIZE && y > 1 && y <= BOARD_SIZE;
         }
 
-        #endregion
-
         public IEnumerable<Cell> GetCellByDirection(Cell cell, int dirX, int dirY, int distance)
         {
             int x = cell.X + dirX;
@@ -137,5 +145,15 @@ namespace CheckersRules
             }
             return result;
         }
+
+        public void SetColor(Coordinates coordinates, PieceColor color)
+        {
+            int index = GetIndexByCoordinates(coordinates);
+            _board[index].PieceColor = color;
+        }
+
+        #endregion
+
+        
     }
 }
