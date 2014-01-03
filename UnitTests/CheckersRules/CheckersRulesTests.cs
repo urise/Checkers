@@ -41,7 +41,7 @@ namespace UnitTests.CheckersRules
         {
             var rules = new Rules("wb4;we3;wg3;ba5;bc5;bd4;bf4;bc3;bd2", "w");
             var moves = rules.GetMoveList();
-            CollectionAssert.AreEquivalent(new List<string> { "b4-d6", "e3-g5", "g3-e5" }, moves);
+            CollectionAssert.AreEquivalent(new List<string> { "b4-d6", "e3-g5", "g3-e5", "e3-c1" }, moves);
         }
 
         [Test]
@@ -58,6 +58,15 @@ namespace UnitTests.CheckersRules
             var rules = new Rules("wd4;be5;bg5;bg3;be3;bc5", "w");
             var moves = rules.GetMoveList();
             CollectionAssert.AreEquivalent(new List<string> { "d4-f6-h4-f2-d4-b6", "d4-f2-h4-f6-d4-b6", "d4-b6" }, moves);
+        }
+
+        [Test]
+        public void KingTest()
+        {
+            var rules = new Rules("Wc3;ba5", "w");
+            var moves = rules.GetMoveList();
+            CollectionAssert.AreEquivalent(new List<string> { 
+                "c3-b2", "c3-a1", "c3-d4", "c3-e5", "c3-f6", "c3-g7", "c3-h8", "c3-b4", "c3-d2", "c3-e1"}, moves);
         }
     }
 }

@@ -127,20 +127,20 @@ namespace CheckersRules
 
         private bool IsLegalCoordinates(int x, int y)
         {
-            return x > 1 && x <= BOARD_SIZE && y > 1 && y <= BOARD_SIZE;
+            return x >= 1 && x <= BOARD_SIZE && y >= 1 && y <= BOARD_SIZE;
         }
 
-        public IEnumerable<Cell> GetCellByDirection(Cell cell, int dirX, int dirY, int distance)
+        public IEnumerable<Cell> GetCellByDirection(Cell cell, Direction direction, int distance)
         {
-            int x = cell.X + dirX;
-            int y = cell.Y + dirY;
+            int x = cell.X + direction.DirectionX;
+            int y = cell.Y + direction.DirectionY;
             int n = 0;
             var result = new List<Cell>();
-            while (IsLegalCoordinates(x, y) && n < distance)
+            while (IsLegalCoordinates(x, y) && (n < distance || distance == 0))
             {
                 result.Add(GetCellByXY(x, y));
-                x += dirX;
-                y += dirY;
+                x += direction.DirectionX;
+                y += direction.DirectionY;
                 n++;
             }
             return result;

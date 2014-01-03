@@ -86,18 +86,17 @@ namespace CheckersRules
         {
             int distance = cell.Piece == Piece.King ? 8 : 2;
             var result = new List<TakeMove>();
-
-            AddTakeMoves(result, cell, -1, -1, distance, alreadyTaken);
-            AddTakeMoves(result, cell, -1, 1, distance, alreadyTaken);
-            AddTakeMoves(result, cell, 1, -1, distance, alreadyTaken);
-            AddTakeMoves(result, cell, 1, 1, distance, alreadyTaken);
-
+            foreach (var direction in Constants.Directions)
+            {
+                AddTakeMoves(result, cell, direction, distance, alreadyTaken);
+            }
+            
             return result;
         }
 
-        private void AddTakeMoves(List<TakeMove> takeMoves, Cell cell, int dirX, int dirY, int distance, List<Coordinates> alreadyTaken)
+        private void AddTakeMoves(List<TakeMove> takeMoves, Cell cell, Direction direction, int distance, List<Coordinates> alreadyTaken)
         {
-            var cells = _position.GetCellByDirection(cell, dirX, dirY, distance);
+            var cells = _position.GetCellByDirection(cell, direction, distance);
             bool isTaken = false;
 
             var cellTaken = new Coordinates();
@@ -139,7 +138,15 @@ namespace CheckersRules
 
         private void AddKingMoves(List<string> moves, Cell cell, bool killOnly)
         {
-            throw new NotImplementedException();
+            foreach (var direction in Constants.Directions)
+            {
+                var cells = _position.GetCellByDirection(cell, direction, 0);
+                foreach (var moveCell in cells)
+                {
+                    if (moveCell.PieceColor != PieceColor.Empty) break;
+                    moves.Add(cell.ToString() + "-" + moveCell.ToString());
+                }
+            }
         }
 
         #endregion

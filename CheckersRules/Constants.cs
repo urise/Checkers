@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CheckersRules
 {
@@ -29,6 +26,12 @@ namespace CheckersRules
         {
             return Constants.CoordinateCharacters[X - 1] + Y.ToString();
         }
+    }
+
+    internal struct Direction
+    {
+        public int DirectionX;
+        public int DirectionY;
     }
 
     internal struct Cell
@@ -69,5 +72,13 @@ namespace CheckersRules
     internal class Constants
     {
         public const string CoordinateCharacters = "abcdefgh";
+
+        public static IEnumerable<Direction> Directions = new List<Direction>
+            {
+                new Direction {DirectionX = -1, DirectionY = -1},
+                new Direction {DirectionX = 1, DirectionY = -1},
+                new Direction {DirectionX = -1, DirectionY = 1},
+                new Direction {DirectionX = 1, DirectionY = 1}
+            };
     }
 }
