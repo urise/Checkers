@@ -30,17 +30,51 @@ namespace CheckersRules
 
         #endregion
 
-        #region Get Moves
+        #region Get No Take Moves
 
         private List<string> GetNoTakeMoves()
         {
             var result = new List<string>();
             foreach (var cell in _position.GetCurrentColorCells())
             {
-                AddMoves(result, cell, false);
+                AddMoves(result, cell);
             }
             return result;
         }
+
+        private void AddMoves(List<string> moves, Cell cell)
+        {
+            if (cell.Piece == Piece.King)
+                AddKingMoves(moves, cell);
+            else
+                AddSimpleMoves(moves, cell);
+        }
+
+        private void AddSimpleMoves(List<string> moves, Cell cell)
+        {
+            foreach (var cellToMove in _position.GetPossibleSimpleMoves(cell))
+            {
+                if (cellToMove.Piece == Piece.Empty)
+                    moves.Add(cell.ToString() + "-" + cellToMove.ToString());
+            }
+        }
+
+        private void AddKingMoves(List<string> moves, Cell cell)
+        {
+            foreach (var direction in Constants.Directions)
+            {
+                var cells = _position.GetCellByDirection(cell, direction, 0);
+                foreach (var moveCell in cells)
+                {
+                    if (moveCell.PieceColor != PieceColor.Empty) break;
+                    moves.Add(cell.ToString() + "-" + moveCell.ToString());
+                }
+            }
+        }
+
+        #endregion
+
+        #region Get Take Moves
 
         private List<string> GetTakeMoves()
         {
@@ -88,7 +122,7 @@ namespace CheckersRules
 
         private List<TakeMove> GetSingleTakeMoves(Cell cell, List<Coordinates> alreadyTaken)
         {
-            int distance = cell.Piece == Piece.King ? 8 : 2;
+            int distance = cell.Piece == Piece.King ? 0 : 2;
             var result = new List<TakeMove>();
             foreach (var direction in Constants.Directions)
             {
@@ -119,36 +153,6 @@ namespace CheckersRules
                         isTaken = true;
                         cellTaken = moveCell.Coordinates;
                     }
-                }
-            }
-        }
-
-        private void AddMoves(List<string> moves, Cell cell, bool killOnly)
-        {
-            if (cell.Piece == Piece.King)
-                AddKingMoves(moves, cell, killOnly);
-            else
-                AddSimpleMoves(moves, cell, killOnly);
-        }
-
-        private void AddSimpleMoves(List<string> moves, Cell cell, bool killOnly)
-        {
-            foreach (var cellToMove in _position.GetPossibleSimpleMoves(cell))
-            {
-                if (cellToMove.Piece == Piece.Empty)
-                    moves.Add(cell.ToString() + "-" + cellToMove.ToString());
-            }
-        }
-
-        private void AddKingMoves(List<string> moves, Cell cell, bool killOnly)
-        {
-            foreach (var direction in Constants.Directions)
-            {
-                var cells = _position.GetCellByDirection(cell, direction, 0);
-                foreach (var moveCell in cells)
-                {
-                    if (moveCell.PieceColor != PieceColor.Empty) break;
-                    moves.Add(cell.ToString() + "-" + moveCell.ToString());
                 }
             }
         }

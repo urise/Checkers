@@ -15,7 +15,7 @@ namespace CheckersRules
 
         #endregion
 
-        #region public Members
+        #region Public Members
 
         public void SetPosition(string position, string currentColor)
         {
@@ -52,84 +52,6 @@ namespace CheckersRules
 
         public PieceColor CurrentColor { get; private set; }
 
-        #endregion
-
-        #region Set Position Methods
-
-        private void ClearPosition()
-        {
-            for (int i = 0; i < _board.Length; i++)
-            {
-                _board[i].X = i % BOARD_SIZE + 1;
-                _board[i].Y = i / BOARD_SIZE + 1;
-                _board[i].Piece = Piece.Empty;
-                _board[i].PieceColor = PieceColor.Empty;
-            }
-        }
-
-        private void SetCell(string cellStr)
-        {
-            if (cellStr.Length != 3) throw new Exception("Wrong format: " + cellStr);
-            int vertical = Constants.CoordinateCharacters.IndexOf(cellStr[1]);
-            if (vertical == -1)
-                throw new Exception("Wrong vertical char: " + cellStr);
-            int horizontal = Convert.ToInt32(cellStr.Substring(2, 1)) - 1;
-            if (horizontal < 0 || horizontal >= BOARD_SIZE)
-                throw new Exception("Wrong horizontal char: " + cellStr);
-            _board[horizontal * BOARD_SIZE + vertical].Piece = GetPieceByChar(cellStr[0]);
-            _board[horizontal*BOARD_SIZE + vertical].PieceColor = GetPieceColorByChar(cellStr[0]);
-        }
-
-        #endregion
-
-        #region Auxilliary Methods
-
-        private Cell GetCellByXY(int x, int y)
-        {
-            return _board[GetIndexByXY(x, y)];
-        }
-
-        private int GetIndexByXY(int x, int y)
-        {
-            return (y - 1)*BOARD_SIZE + x - 1;
-        }
-
-        private int GetIndexByCoordinates(Coordinates coordinates)
-        {
-            return GetIndexByXY(coordinates.X, coordinates.Y);
-        }
-
-        private Piece GetPieceByChar(char c)
-        {
-            switch (c)
-            {
-                case 'w':
-                case 'b': return Piece.Simple;
-                case 'W':
-                case 'B': return Piece.King;
-                default:
-                    throw new Exception("Wrong piece char: " + c);
-            }
-        }
-
-        private PieceColor GetPieceColorByChar(char c)
-        {
-            switch (c)
-            {
-                case 'w':
-                case 'W': return PieceColor.White;
-                case 'b':
-                case 'B': return PieceColor.Black;
-                default:
-                    throw new Exception("Wrong piece char: " + c);
-            }
-        }
-
-        private bool IsLegalCoordinates(int x, int y)
-        {
-            return x >= 1 && x <= BOARD_SIZE && y >= 1 && y <= BOARD_SIZE;
-        }
-
         public IEnumerable<Cell> GetCellByDirection(Cell cell, Direction direction, int distance)
         {
             int x = cell.X + direction.DirectionX;
@@ -159,6 +81,82 @@ namespace CheckersRules
 
         #endregion
 
-        
+        #region Set Position Methods
+
+        private void ClearPosition()
+        {
+            for (int i = 0; i < _board.Length; i++)
+            {
+                _board[i].X = i % BOARD_SIZE + 1;
+                _board[i].Y = i / BOARD_SIZE + 1;
+                _board[i].Piece = Piece.Empty;
+                _board[i].PieceColor = PieceColor.Empty;
+            }
+        }
+
+        private void SetCell(string cellStr)
+        {
+            if (cellStr.Length != 3) throw new Exception("Wrong format: " + cellStr);
+            int vertical = Constants.CoordinateCharacters.IndexOf(cellStr[1]);
+            if (vertical == -1)
+                throw new Exception("Wrong vertical char: " + cellStr);
+            int horizontal = Convert.ToInt32(cellStr.Substring(2, 1)) - 1;
+            if (horizontal < 0 || horizontal >= BOARD_SIZE)
+                throw new Exception("Wrong horizontal char: " + cellStr);
+            _board[horizontal * BOARD_SIZE + vertical].Piece = GetPieceByChar(cellStr[0]);
+            _board[horizontal*BOARD_SIZE + vertical].PieceColor = GetPieceColorByChar(cellStr[0]);
+        }
+
+        private Piece GetPieceByChar(char c)
+        {
+            switch (c)
+            {
+                case 'w':
+                case 'b': return Piece.Simple;
+                case 'W':
+                case 'B': return Piece.King;
+                default:
+                    throw new Exception("Wrong piece char: " + c);
+            }
+        }
+
+        private PieceColor GetPieceColorByChar(char c)
+        {
+            switch (c)
+            {
+                case 'w':
+                case 'W': return PieceColor.White;
+                case 'b':
+                case 'B': return PieceColor.Black;
+                default:
+                    throw new Exception("Wrong piece char: " + c);
+            }
+        }
+
+        #endregion
+
+        #region Auxilliary Methods
+
+        private Cell GetCellByXY(int x, int y)
+        {
+            return _board[GetIndexByXY(x, y)];
+        }
+
+        private int GetIndexByXY(int x, int y)
+        {
+            return (y - 1)*BOARD_SIZE + x - 1;
+        }
+
+        private int GetIndexByCoordinates(Coordinates coordinates)
+        {
+            return GetIndexByXY(coordinates.X, coordinates.Y);
+        }
+
+        private bool IsLegalCoordinates(int x, int y)
+        {
+            return x >= 1 && x <= BOARD_SIZE && y >= 1 && y <= BOARD_SIZE;
+        }
+
+        #endregion
     }
 }
