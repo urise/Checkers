@@ -75,8 +75,12 @@ namespace CheckersRules
                 var newAlreadyTaken = new List<Coordinates>(alreadyTaken);
                 newAlreadyTaken.Add(takeMove.CellTaken);
 
-                var newCell = new Cell
-                    {Coordinates = takeMove.CellToMove, PieceColor = cell.PieceColor, Piece = cell.Piece};
+                var newCell = new Cell { 
+                    Coordinates = takeMove.CellToMove, 
+                    PieceColor = cell.PieceColor, 
+                    Piece = (cell.Piece == Piece.Simple && _position.IsTurnToKingHorizontal(takeMove.CellToMove.Y) 
+                        ? Piece.King : cell.Piece)
+                };
 
                 AddTakeMoves(moves, newCell, newAlreadyTaken, path + "-" + takeMove.CellToMove.ToString());
             }

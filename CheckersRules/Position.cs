@@ -74,7 +74,7 @@ namespace CheckersRules
             if (vertical == -1)
                 throw new Exception("Wrong vertical char: " + cellStr);
             int horizontal = Convert.ToInt32(cellStr.Substring(2, 1)) - 1;
-            if (horizontal < 1 || horizontal > 8)
+            if (horizontal < 0 || horizontal >= BOARD_SIZE)
                 throw new Exception("Wrong horizontal char: " + cellStr);
             _board[horizontal * BOARD_SIZE + vertical].Piece = GetPieceByChar(cellStr[0]);
             _board[horizontal*BOARD_SIZE + vertical].PieceColor = GetPieceColorByChar(cellStr[0]);
@@ -144,6 +144,11 @@ namespace CheckersRules
                 n++;
             }
             return result;
+        }
+
+        public bool IsTurnToKingHorizontal(int horizontal)
+        {
+            return horizontal == (CurrentColor == PieceColor.White ? BOARD_SIZE : 1);
         }
 
         public void SetColor(Coordinates coordinates, PieceColor color)
