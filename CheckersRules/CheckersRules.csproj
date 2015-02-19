@@ -39,6 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Cell.cs" />
+    <Compile Include="Common\Direction.cs" />
+    <Compile Include="Common\Square.cs" />
+    <Compile Include="Common\TakeMove.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Rules.cs" />
