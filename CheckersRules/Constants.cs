@@ -17,7 +17,7 @@ namespace CheckersRules
         Black
     }
 
-    internal struct Coordinates
+    internal struct Square
     {
         public int X;
         public int Y;
@@ -36,25 +36,25 @@ namespace CheckersRules
 
     internal struct Cell
     {
-        public Coordinates Coordinates;
+        public Square Square;
         public Piece Piece;
         public PieceColor PieceColor;
 
         public int X
         {
-            get { return Coordinates.X; }
-            set { Coordinates.X = value; }
+            get { return Square.X; }
+            set { Square.X = value; }
         }
 
         public int Y
         {
-            get { return Coordinates.Y; }
-            set { Coordinates.Y = value; }
+            get { return Square.Y; }
+            set { Square.Y = value; }
         }
 
         public override string ToString()
         {
-            return Coordinates.ToString();
+            return Square.ToString();
         }
 
         public bool IsOppositeColor(PieceColor color)
@@ -65,8 +65,8 @@ namespace CheckersRules
 
     internal struct TakeMove
     {
-        public Coordinates CellToMove;
-        public Coordinates CellTaken;
+        public Square CellToMove;
+        public Square CellTaken;
     }
 
     internal class Constants

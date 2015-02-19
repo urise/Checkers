@@ -73,9 +73,9 @@ namespace CheckersRules
             return horizontal == (CurrentColor == PieceColor.White ? BOARD_SIZE : 1);
         }
 
-        public void SetColor(Coordinates coordinates, PieceColor color)
+        public void SetColor(Square square, PieceColor color)
         {
-            int index = GetIndexByCoordinates(coordinates);
+            int index = GetIndexByCoordinates(square);
             _board[index].PieceColor = color;
         }
 
@@ -147,9 +147,9 @@ namespace CheckersRules
             return (y - 1)*BOARD_SIZE + x - 1;
         }
 
-        private int GetIndexByCoordinates(Coordinates coordinates)
+        private int GetIndexByCoordinates(Square square)
         {
-            return GetIndexByXY(coordinates.X, coordinates.Y);
+            return GetIndexByXY(square.X, square.Y);
         }
 
         private bool IsLegalCoordinates(int x, int y)

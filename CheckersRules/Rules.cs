@@ -88,12 +88,12 @@ namespace CheckersRules
 
         private void AddTakeMoves(List<string> moves, Cell cell)
         {
-            _position.SetColor(cell.Coordinates, PieceColor.Empty);
-            AddTakeMoves(moves, cell, new List<Coordinates>(), string.Empty);
-            _position.SetColor(cell.Coordinates, cell.PieceColor);
+            _position.SetColor(cell.Square, PieceColor.Empty);
+            AddTakeMoves(moves, cell, new List<Square>(), string.Empty);
+            _position.SetColor(cell.Square, cell.PieceColor);
         }
 
-        private void AddTakeMoves(List<string> moves, Cell cell, List<Coordinates> alreadyTaken, string path)
+        private void AddTakeMoves(List<string> moves, Cell cell, List<Square> alreadyTaken, string path)
         {
             var takeMoves = GetSingleTakeMoves(cell, alreadyTaken);
             if (takeMoves.Count == 0 && !string.IsNullOrEmpty(path))
@@ -106,11 +106,11 @@ namespace CheckersRules
 
             foreach (var takeMove in takeMoves)
             {
-                var newAlreadyTaken = new List<Coordinates>(alreadyTaken);
+                var newAlreadyTaken = new List<Square>(alreadyTaken);
                 newAlreadyTaken.Add(takeMove.CellTaken);
 
                 var newCell = new Cell { 
-                    Coordinates = takeMove.CellToMove, 
+                    Square = takeMove.CellToMove, 
                     PieceColor = cell.PieceColor, 
                     Piece = (cell.Piece == Piece.Simple && _position.IsTurnToKingHorizontal(takeMove.CellToMove.Y) 
                         ? Piece.King : cell.Piece)
@@ -120,7 +120,7 @@ namespace CheckersRules
             }
         }
 
-        private List<TakeMove> GetSingleTakeMoves(Cell cell, List<Coordinates> alreadyTaken)
+        private List<TakeMove> GetSingleTakeMoves(Cell cell, List<Square> alreadyTaken)
         {
             int distance = cell.Piece == Piece.King ? 0 : 2;
             var result = new List<TakeMove>();
@@ -132,26 +132,26 @@ namespace CheckersRules
             return result;
         }
 
-        private void AddTakeMoves(List<TakeMove> takeMoves, Cell cell, Direction direction, int distance, List<Coordinates> alreadyTaken)
+        private void AddTakeMoves(List<TakeMove> takeMoves, Cell cell, Direction direction, int distance, List<Square> alreadyTaken)
         {
             var cells = _position.GetCellByDirection(cell, direction, distance);
             bool isTaken = false;
 
-            var cellTaken = new Coordinates();
+            var cellTaken = new Square();
             foreach (var moveCell in cells)
             {
                 if (isTaken)
                 {
                     if (moveCell.PieceColor != PieceColor.Empty) break;
-                    takeMoves.Add(new TakeMove {CellTaken = cellTaken, CellToMove = moveCell.Coordinates});
+                    takeMoves.Add(new TakeMove {CellTaken = cellTaken, CellToMove = moveCell.Square});
                 }
                 else
                 {
                     if (moveCell.IsOppositeColor(cell.PieceColor))
                     {
-                        if (alreadyTaken.Contains(moveCell.Coordinates)) break;
+                        if (alreadyTaken.Contains(moveCell.Square)) break;
                         isTaken = true;
-                        cellTaken = moveCell.Coordinates;
+                        cellTaken = moveCell.Square;
                     }
                 }
             }
