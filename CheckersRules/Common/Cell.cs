@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace CheckersRules.Common
 {
-    internal struct Cell
+    public class Cell
     {
-        public Square Square;
-        public Piece Piece;
+        public Square Square { get; private set; }
+        public Piece Piece { get; private set; }
 
         public int X
         {
@@ -33,6 +33,18 @@ namespace CheckersRules.Common
         {
             get { return Piece.Type; }
             set { Piece.Type = value; }
+        }
+
+        public Cell()
+        {
+            Square = new Square();
+            Piece = new Piece();
+        }
+
+        public Cell(Square square, Piece piece)
+        {
+            Square = square;
+            Piece = piece;
         }
 
         public override string ToString()

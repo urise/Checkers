@@ -89,9 +89,10 @@ namespace CheckersRules
 
         private void AddTakeMoves(List<string> moves, Cell cell)
         {
+            var color = cell.PieceColor;
             _position.SetColor(cell.Square, PieceColor.Empty);
             AddTakeMoves(moves, cell, new List<Square>(), string.Empty);
-            _position.SetColor(cell.Square, cell.PieceColor);
+            _position.SetColor(cell.Square, color);
         }
 
         private void AddTakeMoves(List<string> moves, Cell cell, List<Square> alreadyTaken, string path)
@@ -110,12 +111,12 @@ namespace CheckersRules
                 var newAlreadyTaken = new List<Square>(alreadyTaken);
                 newAlreadyTaken.Add(takeMove.CellTaken);
 
-                var newCell = new Cell { 
-                    Square = takeMove.CellToMove, 
-                    PieceColor = cell.PieceColor, 
-                    PieceType = (cell.PieceType == PieceType.Simple && _position.IsTurnToKingHorizontal(takeMove.CellToMove.Y) 
-                        ? PieceType.King : cell.PieceType)
-                };
+                var newPieceType = (cell.PieceType == PieceType.Simple &&
+                                    _position.IsTurnToKingHorizontal(takeMove.CellToMove.Y)
+                    ? PieceType.King
+                    : cell.PieceType);
+                var newPiece = new Piece(newPieceType, cell.PieceColor);
+                var newCell = new Cell(takeMove.CellToMove, newPiece);
 
                 AddTakeMoves(moves, newCell, newAlreadyTaken, path + "-" + takeMove.CellToMove.ToString());
             }
@@ -138,7 +139,7 @@ namespace CheckersRules
             var cells = _position.GetCellByDirection(cell, direction, distance);
             bool isTaken = false;
 
-            var cellTaken = new Square();
+            Square cellTaken = new Square();
             foreach (var moveCell in cells)
             {
                 if (isTaken)

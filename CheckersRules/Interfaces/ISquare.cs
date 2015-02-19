@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckersRules.Common
+namespace CheckersRules.Interfaces
 {
-    public struct TakeMove
+    public interface ISquare
     {
-        public Square CellToMove;
-        public Square CellTaken;
+        int X { get; }
+        int Y { get; }
     }
 }

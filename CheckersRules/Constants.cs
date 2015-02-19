@@ -4,7 +4,7 @@ using CheckersRules.Common;
 
 namespace CheckersRules
 {
-    internal class Constants
+    public class Constants
     {
         public const string CoordinateCharacters = "abcdefgh";
 

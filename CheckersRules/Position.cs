@@ -7,7 +7,7 @@ using CheckersRules.Common;
 
 namespace CheckersRules
 {
-    internal class Position
+    public class Position
     {
         #region Private Members
 
@@ -17,6 +17,14 @@ namespace CheckersRules
         #endregion
 
         #region Public Members
+
+        public Position()
+        {
+            for (int i = 0; i < _board.Length; i++)
+            {
+                _board[i] = new Cell();
+            }
+        }
 
         public void SetPosition(string position, string currentColor)
         {

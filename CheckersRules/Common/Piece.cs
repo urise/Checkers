@@ -6,23 +6,31 @@ using System.Threading.Tasks;
 
 namespace CheckersRules.Common
 {
-    internal enum PieceType
+    public enum PieceType
     {
         Empty,
         Simple,
         King
     };
 
-    internal enum PieceColor
+    public enum PieceColor
     {
         Empty,
         White,
         Black
     }
 
-    internal struct Piece
+    public class Piece
     {
-        public PieceType Type;
-        public PieceColor Color;
+        public PieceType Type { get; set; }
+        public PieceColor Color { get; set; }
+
+        public Piece() {}
+
+        public Piece(PieceType type, PieceColor color)
+        {
+            Type = type;
+            Color = color;
+        }
     }
 }
