@@ -90,7 +90,7 @@ namespace CheckersRules
             {
                 _board[i].X = i % BOARD_SIZE + 1;
                 _board[i].Y = i / BOARD_SIZE + 1;
-                _board[i].Piece = Piece.Empty;
+                _board[i].PieceType = PieceType.Empty;
                 _board[i].PieceColor = PieceColor.Empty;
             }
         }
@@ -104,18 +104,18 @@ namespace CheckersRules
             int horizontal = Convert.ToInt32(cellStr.Substring(2, 1)) - 1;
             if (horizontal < 0 || horizontal >= BOARD_SIZE)
                 throw new Exception("Wrong horizontal char: " + cellStr);
-            _board[horizontal * BOARD_SIZE + vertical].Piece = GetPieceByChar(cellStr[0]);
+            _board[horizontal * BOARD_SIZE + vertical].PieceType = GetPieceByChar(cellStr[0]);
             _board[horizontal*BOARD_SIZE + vertical].PieceColor = GetPieceColorByChar(cellStr[0]);
         }
 
-        private Piece GetPieceByChar(char c)
+        private PieceType GetPieceByChar(char c)
         {
             switch (c)
             {
                 case 'w':
-                case 'b': return Piece.Simple;
+                case 'b': return PieceType.Simple;
                 case 'W':
-                case 'B': return Piece.King;
+                case 'B': return PieceType.King;
                 default:
                     throw new Exception("Wrong piece char: " + c);
             }

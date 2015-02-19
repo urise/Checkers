@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Common\Cell.cs" />
     <Compile Include="Common\Direction.cs" />
+    <Compile Include="Common\Piece.cs" />
     <Compile Include="Common\Square.cs" />
     <Compile Include="Common\TakeMove.cs" />
     <Compile Include="Position.cs" />

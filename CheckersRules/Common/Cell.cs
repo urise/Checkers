@@ -6,25 +6,10 @@ using System.Threading.Tasks;
 
 namespace CheckersRules.Common
 {
-    internal enum Piece
-    {
-        Empty,
-        Simple,
-        King
-    };
-
-    internal enum PieceColor
-    {
-        Empty,
-        White,
-        Black
-    }
-
     internal struct Cell
     {
         public Square Square;
         public Piece Piece;
-        public PieceColor PieceColor;
 
         public int X
         {
@@ -38,6 +23,18 @@ namespace CheckersRules.Common
             set { Square.Y = value; }
         }
 
+        public PieceColor PieceColor
+        {
+            get { return Piece.Color; }
+            set { Piece.Color = value; }
+        }
+
+        public PieceType PieceType
+        {
+            get { return Piece.Type; }
+            set { Piece.Type = value; }
+        }
+
         public override string ToString()
         {
             return Square.ToString();
@@ -45,7 +42,7 @@ namespace CheckersRules.Common
 
         public bool IsOppositeColor(PieceColor color)
         {
-            return PieceColor != PieceColor.Empty && PieceColor != color;
+            return Piece.Color != PieceColor.Empty && Piece.Color != color;
         }
     }
 }

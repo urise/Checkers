@@ -45,7 +45,7 @@ namespace CheckersRules
 
         private void AddMoves(List<string> moves, Cell cell)
         {
-            if (cell.Piece == Piece.King)
+            if (cell.PieceType == PieceType.King)
                 AddKingMoves(moves, cell);
             else
                 AddSimpleMoves(moves, cell);
@@ -55,7 +55,7 @@ namespace CheckersRules
         {
             foreach (var cellToMove in _position.GetPossibleSimpleMoves(cell))
             {
-                if (cellToMove.Piece == Piece.Empty)
+                if (cellToMove.PieceType == PieceType.Empty)
                     moves.Add(cell.ToString() + "-" + cellToMove.ToString());
             }
         }
@@ -113,8 +113,8 @@ namespace CheckersRules
                 var newCell = new Cell { 
                     Square = takeMove.CellToMove, 
                     PieceColor = cell.PieceColor, 
-                    Piece = (cell.Piece == Piece.Simple && _position.IsTurnToKingHorizontal(takeMove.CellToMove.Y) 
-                        ? Piece.King : cell.Piece)
+                    PieceType = (cell.PieceType == PieceType.Simple && _position.IsTurnToKingHorizontal(takeMove.CellToMove.Y) 
+                        ? PieceType.King : cell.PieceType)
                 };
 
                 AddTakeMoves(moves, newCell, newAlreadyTaken, path + "-" + takeMove.CellToMove.ToString());
@@ -123,7 +123,7 @@ namespace CheckersRules
 
         private List<TakeMove> GetSingleTakeMoves(Cell cell, List<Square> alreadyTaken)
         {
-            int distance = cell.Piece == Piece.King ? 0 : 2;
+            int distance = cell.PieceType == PieceType.King ? 0 : 2;
             var result = new List<TakeMove>();
             foreach (var direction in Constants.Directions)
             {
