@@ -20,6 +20,11 @@ namespace CheckersRules.Common
             Y = y;
         }
 
+        public static Square operator +(Square square, IDirection direction)
+        {
+            return new Square(square.X + direction.DirectionX, square.Y + direction.DirectionY);
+        }
+
         public override string ToString()
         {
             return Constants.CoordinateCharacters[X - 1] + Y.ToString();

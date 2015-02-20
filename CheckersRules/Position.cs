@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CheckersRules.Common;
+using CheckersRules.Interfaces;
 
 namespace CheckersRules
 {
-    public class Position
+    public class Position : IPosition
     {
         #region Private Members
 
@@ -61,7 +62,7 @@ namespace CheckersRules
 
         public PieceColor CurrentColor { get; private set; }
 
-        public IEnumerable<Cell> GetCellByDirection(Cell cell, Direction direction, int distance)
+        public IEnumerable<Cell> GetCellByDirection(Cell cell, IDirection direction, int distance)
         {
             int x = cell.X + direction.DirectionX;
             int y = cell.Y + direction.DirectionY;

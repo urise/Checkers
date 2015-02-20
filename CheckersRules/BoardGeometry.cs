@@ -18,23 +18,26 @@ namespace CheckersRules
             BoardSize = DEFAULT_BOARD_SIZE;
         }
 
+        private Square AddDirection(ISquare square, IDirection direction)
+        {
+            return new Square(square.X + direction.DirectionX, square.Y + direction.DirectionY);
+        }
+
         public IEnumerable<Square> GetCellsByDirection(ISquare square, IDirection direction, int distance)
         {
-            int x = square.X + direction.DirectionX;
-            int y = square.Y + direction.DirectionY;
+            Square newSquare = AddDirection(square, direction);
             int n = 0;
-            while (IsLegalCoordinates(x, y) && (n < distance || distance == 0))
+            while (IsLegal(newSquare) && (n < distance || distance == 0))
             {
-                yield return new Square(x, y);
-                x += direction.DirectionX;
-                y += direction.DirectionY;
+                yield return newSquare;
+                newSquare = AddDirection(newSquare, direction);
                 n++;
             }
         }
 
-        private bool IsLegalCoordinates(int x, int y)
+        private bool IsLegal(ISquare square)
         {
-            return x >= 1 && x <= BoardSize && y >= 1 && y <= BoardSize;
+            return square.X >= 1 && square.X <= BoardSize && square.Y >= 1 && square.Y <= BoardSize;
         }
     }
 }

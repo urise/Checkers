@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CheckersRules.Common;
+using CheckersRules.Interfaces;
 
 namespace CheckersRules
 {
@@ -11,7 +12,9 @@ namespace CheckersRules
     {
         #region Private Members
 
-        private readonly Position _position = new Position();
+        private readonly IPosition _position;
+        private readonly IBoardGeometry _boardGeometry;
+        private readonly IDirections _directions;
 
         #endregion
 
@@ -20,6 +23,13 @@ namespace CheckersRules
         public Rules(string position, string currentColor)
         {
             _position.SetPosition(position, currentColor);
+        }
+
+        public Rules(IPosition position, IBoardGeometry boardGeometry, IDirections directions)
+        {
+            _position = position;
+            _boardGeometry = boardGeometry;
+            _directions = directions;
         }
 
         public List<string> GetMoveList()
@@ -62,7 +72,7 @@ namespace CheckersRules
 
         private void AddKingMoves(List<string> moves, Cell cell)
         {
-            foreach (var direction in Constants.Directions)
+            foreach (var direction in _directions.AllDirections())
             {
                 var cells = _position.GetCellByDirection(cell, direction, 0);
                 foreach (var moveCell in cells)
@@ -126,7 +136,7 @@ namespace CheckersRules
         {
             int distance = cell.PieceType == PieceType.King ? 0 : 2;
             var result = new List<TakeMove>();
-            foreach (var direction in Constants.Directions)
+            foreach (var direction in _directions.AllDirections())
             {
                 AddTakeMoves(result, cell, direction, distance, alreadyTaken);
             }
@@ -134,7 +144,7 @@ namespace CheckersRules
             return result;
         }
 
-        private void AddTakeMoves(List<TakeMove> takeMoves, Cell cell, Direction direction, int distance, List<Square> alreadyTaken)
+        private void AddTakeMoves(List<TakeMove> takeMoves, Cell cell, IDirection direction, int distance, List<Square> alreadyTaken)
         {
             var cells = _position.GetCellByDirection(cell, direction, distance);
             bool isTaken = false;
