@@ -56,12 +56,18 @@ namespace CheckersRules
                 AddSimpleMoves(moves, cell);
         }
 
+        private IEnumerable<ISquare> GetPossibleSimpleMoves(Cell cell)
+        {
+            return _boardGeometry.GetCellsByDirections(cell.Square, _directions.SimpleMoveDirections(cell.PieceColor), 1);
+        }
+
         private void AddSimpleMoves(List<string> moves, Cell cell)
         {
-            foreach (var cellToMove in _position.GetPossibleSimpleMoves(cell))
+            foreach (var square in GetPossibleSimpleMoves(cell))
             {
+                var cellToMove = _position.GetCell(square);
                 if (cellToMove.PieceType == PieceType.Empty)
-                    moves.Add(cell.ToString() + "-" + cellToMove.ToString());
+                    moves.Add(cell + "-" + cellToMove);
             }
         }
 
@@ -69,11 +75,12 @@ namespace CheckersRules
         {
             foreach (var direction in _directions.AllDirections())
             {
-                var cells = _position.GetCellByDirection(cell, direction, 0);
-                foreach (var moveCell in cells)
+                var squares = _boardGeometry.GetCellsByDirection(cell.Square, direction, 0);
+                foreach (var square in squares)
                 {
+                    var moveCell = _position.GetCell(square);
                     if (moveCell.PieceColor != PieceColor.Empty) break;
-                    moves.Add(cell.ToString() + "-" + moveCell.ToString());
+                    moves.Add(cell + "-" + moveCell);
                 }
             }
         }
@@ -141,12 +148,13 @@ namespace CheckersRules
 
         private void AddTakeMoves(List<TakeMove> takeMoves, Cell cell, IDirection direction, int distance, List<Square> alreadyTaken)
         {
-            var cells = _position.GetCellByDirection(cell, direction, distance);
+            var squares = _boardGeometry.GetCellsByDirection(cell.Square, direction, distance);
             bool isTaken = false;
 
-            Square cellTaken = new Square();
-            foreach (var moveCell in cells)
+            var cellTaken = new Square();
+            foreach (var square in squares)
             {
+                var moveCell = _position.GetCell(square);
                 if (isTaken)
                 {
                     if (moveCell.PieceColor != PieceColor.Empty) break;

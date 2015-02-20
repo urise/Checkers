@@ -19,6 +19,8 @@ namespace CheckersRules
 
         #region Public Members
 
+        public PieceColor CurrentColor { get; private set; }
+
         public Position(string positionStr, string currentColorStr)
         {
             InitBoard();
@@ -51,39 +53,6 @@ namespace CheckersRules
             return _board.Where(r => r.PieceColor == CurrentColor);
         }
 
-        public IEnumerable<Cell> GetPossibleSimpleMoves(Cell cell)
-        {
-            var result = new List<Cell>();
-            int direction = CurrentColor == PieceColor.White ? 1 : -1;
-
-
-            if (cell.X > 1 && cell.Y < BOARD_SIZE)
-                result.Add(GetCellByXY(cell.X - 1, cell.Y + direction));
-
-            if (cell.X < BOARD_SIZE && cell.Y < BOARD_SIZE)
-                result.Add(GetCellByXY(cell.X + 1, cell.Y + direction));
-
-            return result;
-        }
-
-        public PieceColor CurrentColor { get; private set; }
-
-        public IEnumerable<Cell> GetCellByDirection(Cell cell, IDirection direction, int distance)
-        {
-            int x = cell.X + direction.DirectionX;
-            int y = cell.Y + direction.DirectionY;
-            int n = 0;
-            var result = new List<Cell>();
-            while (IsLegalCoordinates(x, y) && (n < distance || distance == 0))
-            {
-                result.Add(GetCellByXY(x, y));
-                x += direction.DirectionX;
-                y += direction.DirectionY;
-                n++;
-            }
-            return result;
-        }
-
         public bool IsTurnToKingHorizontal(int horizontal)
         {
             return horizontal == (CurrentColor == PieceColor.White ? BOARD_SIZE : 1);
@@ -93,6 +62,11 @@ namespace CheckersRules
         {
             int index = GetIndexByCoordinates(square);
             _board[index].PieceColor = color;
+        }
+
+        public Cell GetCell(ISquare square)
+        {
+            return GetCellByXY(square.X, square.Y);
         }
 
         #endregion

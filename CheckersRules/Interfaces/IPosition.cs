@@ -6,10 +6,9 @@ namespace CheckersRules.Interfaces
     public interface IPosition
     {
         IEnumerable<Cell> GetCurrentColorCells();
-        IEnumerable<Cell> GetPossibleSimpleMoves(Cell cell);
         PieceColor CurrentColor { get; }
-        IEnumerable<Cell> GetCellByDirection(Cell cell, IDirection direction, int distance);
         bool IsTurnToKingHorizontal(int horizontal);
         void SetColor(Square square, PieceColor color);
+        Cell GetCell(ISquare square);
     }
 }

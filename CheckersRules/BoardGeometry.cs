@@ -23,7 +23,7 @@ namespace CheckersRules
             return new Square(square.X + direction.DirectionX, square.Y + direction.DirectionY);
         }
 
-        public IEnumerable<Square> GetCellsByDirection(ISquare square, IDirection direction, int distance)
+        public IEnumerable<ISquare> GetCellsByDirection(ISquare square, IDirection direction, int distance)
         {
             Square newSquare = AddDirection(square, direction);
             int n = 0;
@@ -33,6 +33,16 @@ namespace CheckersRules
                 newSquare = AddDirection(newSquare, direction);
                 n++;
             }
+        }
+
+        public IEnumerable<ISquare> GetCellsByDirections(ISquare square, IEnumerable<IDirection> directions, int distance)
+        {
+            var result = new List<ISquare>();
+            foreach (var direction in directions)
+            {
+                result.AddRange(GetCellsByDirection(square, direction, distance));
+            }
+            return result;
         }
 
         private bool IsLegal(ISquare square)

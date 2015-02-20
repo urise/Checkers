@@ -9,6 +9,7 @@ namespace CheckersRules.Interfaces
 {
     public interface IBoardGeometry
     {
-        IEnumerable<Square> GetCellsByDirection(ISquare square, IDirection direction, int distance);
+        IEnumerable<ISquare> GetCellsByDirection(ISquare square, IDirection direction, int distance);
+        IEnumerable<ISquare> GetCellsByDirections(ISquare square, IEnumerable<IDirection> directions, int distance);
     }
 }
