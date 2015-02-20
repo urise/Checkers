@@ -19,7 +19,13 @@ namespace CheckersRules
 
         #region Public Members
 
-        public Position()
+        public Position(string positionStr, string currentColorStr)
+        {
+            InitBoard();
+            SetPosition(positionStr, currentColorStr);
+        }
+
+        private void InitBoard()
         {
             for (int i = 0; i < _board.Length; i++)
             {
@@ -27,7 +33,7 @@ namespace CheckersRules
             }
         }
 
-        public void SetPosition(string position, string currentColor)
+        private void SetPosition(string position, string currentColor)
         {
             if (string.IsNullOrEmpty(position)) throw new Exception("Position cannot be empty");
             if (string.IsNullOrEmpty(currentColor)) throw new Exception("Current color cannot be empty");

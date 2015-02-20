@@ -8,7 +8,7 @@ using CheckersRules.Interfaces;
 
 namespace CheckersRules
 {
-    public class Rules
+    public class Rules: IRules
     {
         #region Private Members
 
@@ -19,11 +19,6 @@ namespace CheckersRules
         #endregion
 
         #region Public Methods
-
-        public Rules(string position, string currentColor)
-        {
-            _position.SetPosition(position, currentColor);
-        }
 
         public Rules(IPosition position, IBoardGeometry boardGeometry, IDirections directions)
         {

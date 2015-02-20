@@ -5,7 +5,6 @@ namespace CheckersRules.Interfaces
 {
     public interface IPosition
     {
-        void SetPosition(string position, string currentColor);
         IEnumerable<Cell> GetCurrentColorCells();
         IEnumerable<Cell> GetPossibleSimpleMoves(Cell cell);
         PieceColor CurrentColor { get; }

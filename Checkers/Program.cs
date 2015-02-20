@@ -18,7 +18,8 @@ namespace Checkers
             }
             string position = args[0];
             string colorToMove = args[1];
-            var rules = new Rules(position, colorToMove);
+            var rulesFactory = new RulesFactory();
+            var rules = rulesFactory.CreateCheckerRules(position, colorToMove);
             var moves = rules.GetMoveList();
             
             foreach(var move in moves)
