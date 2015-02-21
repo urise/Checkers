@@ -8,10 +8,10 @@ using CheckersRules.Interfaces;
 
 namespace CheckersRules.Common
 {
-    public class Cell
+    public class Cell: ISquare, IPiece
     {
-        public ISquare Square { get; private set; }
-        public Piece Piece { get; private set; }
+        private ISquare Square { get; set; }
+        private IPiece Piece { get; set; }
 
         public int X
         {
@@ -23,23 +23,17 @@ namespace CheckersRules.Common
             get { return Square.Y; }
         }
 
-        public PieceColor PieceColor
+        public PieceColor Color
         {
             get { return Piece.Color; }
         }
 
-        public PieceType PieceType
+        public PieceType Type
         {
             get { return Piece.Type; }
         }
 
-        public Cell()
-        {
-            Square = new Square();
-            Piece = new Piece();
-        }
-
-        public Cell(ISquare square, Piece piece)
+        public Cell(ISquare square, IPiece piece)
         {
             Square = square;
             Piece = piece;
@@ -59,6 +53,11 @@ namespace CheckersRules.Common
         public bool IsOppositeColor(PieceColor color)
         {
             return Piece.Color != color;
+        }
+
+        public bool IsEqualTo(ISquare square)
+        {
+            return Square.IsEqualTo(square);
         }
     }
 }

@@ -37,23 +37,23 @@ namespace CheckersRules
 
         public IEnumerable<Cell> GetCurrentColorCells()
         {
-            return _cells.Where(r => r.PieceColor == CurrentColor);
+            return _cells.Where(r => r.Color == CurrentColor);
         }
 
         private Cell GetCell(ISquare square)
         {
-            return _cells.SingleOrDefault(c => c.Square.IsEqualTo(square));
+            return _cells.SingleOrDefault(c => c.IsEqualTo(square));
         }
 
         public bool SquareIsEmpty(ISquare square)
         {
-            return !_cells.Any(c => c.Square.IsEqualTo(square));
+            return !_cells.Any(c => c.IsEqualTo(square));
         }
 
         public bool SquareIsColor(ISquare square, PieceColor color)
         {
             var cell = GetCell(square);
-            return cell != null && cell.PieceColor == color;
+            return cell != null && cell.Color == color;
         }
 
         #endregion

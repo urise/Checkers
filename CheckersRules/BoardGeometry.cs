@@ -27,7 +27,7 @@ namespace CheckersRules
 
         public IEnumerable<ISquare> GetCellsByDirection(ISquare square, IDirection direction, int distance)
         {
-            Square newSquare = AddDirection(square, direction);
+            ISquare newSquare = AddDirection(square, direction);
             int n = 0;
             while (IsLegal(newSquare) && (n < distance || distance == 0))
             {
@@ -66,7 +66,7 @@ namespace CheckersRules
             return square.X >= 1 && square.X <= BoardSize && square.Y >= 1 && square.Y <= BoardSize;
         }
 
-        private Square AddDirection(ISquare square, IDirection direction)
+        private ISquare AddDirection(ISquare square, IDirection direction)
         {
             return new Square(square.X + direction.DirectionX, square.Y + direction.DirectionY);
         }

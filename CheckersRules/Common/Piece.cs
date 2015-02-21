@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CheckersRules.Helpers;
+using CheckersRules.Interfaces;
 
 namespace CheckersRules.Common
 {
@@ -19,10 +20,10 @@ namespace CheckersRules.Common
         Black
     }
 
-    public class Piece
+    public class Piece: IPiece
     {
-        public PieceType Type { get; set; }
-        public PieceColor Color { get; set; }
+        public PieceType Type { get; private set; }
+        public PieceColor Color { get; private set; }
 
         public Piece() {}
 
@@ -37,7 +38,5 @@ namespace CheckersRules.Common
             Type = c.ToPieceType();
             Color = c.ToPieceColor();
         }
-
-        
     }
 }

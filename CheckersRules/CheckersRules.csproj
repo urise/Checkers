@@ -51,6 +51,7 @@
     <Compile Include="Interfaces\IBoardGeometry.cs" />
     <Compile Include="Interfaces\IDirection.cs" />
     <Compile Include="Interfaces\IDirections.cs" />
+    <Compile Include="Interfaces\IPiece.cs" />
     <Compile Include="Interfaces\IRules.cs" />
     <Compile Include="Interfaces\ISquare.cs" />
     <Compile Include="Interfaces\IPosition.cs" />

@@ -51,7 +51,7 @@ namespace CheckersRules
 
         private void AddMoves(List<string> moves, Cell cell)
         {
-            if (cell.PieceType == PieceType.King)
+            if (cell.Type == PieceType.King)
                 AddKingMoves(moves, cell);
             else
                 AddSimpleMoves(moves, cell);
@@ -59,7 +59,7 @@ namespace CheckersRules
 
         private IEnumerable<ISquare> GetPossibleSimpleMoves(Cell cell)
         {
-            return _boardGeometry.GetCellsByDirections(cell.Square, _directions.SimpleMoveDirections(cell.PieceColor), 1);
+            return _boardGeometry.GetCellsByDirections(cell, _directions.SimpleMoveDirections(cell.Color), 1);
         }
 
         private void AddSimpleMoves(List<string> moves, Cell cell)
@@ -75,7 +75,7 @@ namespace CheckersRules
         {
             foreach (var direction in _directions.AllDirections())
             {
-                var squares = _boardGeometry.GetCellsByDirection(cell.Square, direction, 0);
+                var squares = _boardGeometry.GetCellsByDirection(cell, direction, 0);
                 foreach (var square in squares)
                 {
                     if (!_position.SquareIsEmpty(square)) break;
@@ -100,8 +100,8 @@ namespace CheckersRules
 
         private void AddTakeMoves(List<string> moves, Cell cell)
         {
-            var color = cell.PieceColor;
-            //_position.SetColor(cell.Square, PieceColor.Empty);
+            var color = cell.Color;
+            //_position.SetColor(cell.Square, Color.Empty);
             AddTakeMoves(cell, moves, cell, new List<ISquare>(), string.Empty);
             //_position.SetColor(cell.Square, color);
         }
@@ -127,11 +127,11 @@ namespace CheckersRules
                 var newAlreadyTaken = new List<ISquare>(alreadyTaken);
                 newAlreadyTaken.Add(takeMove.CellTaken);
 
-                var newPieceType = (cell.PieceType == PieceType.Simple &&
+                var newPieceType = (cell.Type == PieceType.Simple &&
                                     IsTurnToKingHorizontal(_position.CurrentColor, takeMove.CellToMove.Y)
                     ? PieceType.King
-                    : cell.PieceType);
-                var newPiece = new Piece(newPieceType, cell.PieceColor);
+                    : cell.Type);
+                var newPiece = new Piece(newPieceType, cell.Color);
                 var newCell = new Cell(takeMove.CellToMove, newPiece);
 
                 AddTakeMoves(startCell, moves, newCell, newAlreadyTaken, path + "-" + takeMove.CellToMove);
@@ -140,7 +140,7 @@ namespace CheckersRules
 
         private List<TakeMove> GetSingleTakeMoves(Cell startCell, Cell cell, List<ISquare> alreadyTaken)
         {
-            int distance = cell.PieceType == PieceType.King ? 0 : 2;
+            int distance = cell.Type == PieceType.King ? 0 : 2;
             var result = new List<TakeMove>();
             foreach (var direction in _directions.AllDirections())
             {
@@ -152,15 +152,15 @@ namespace CheckersRules
 
         private void AddTakeMoves(Cell startCell, List<TakeMove> takeMoves, Cell cell, IDirection direction, int distance, List<ISquare> alreadyTaken)
         {
-            var squares = _boardGeometry.GetCellsByDirection(cell.Square, direction, distance);
+            var squares = _boardGeometry.GetCellsByDirection(cell, direction, distance);
             bool isTaken = false;
 
-            ISquare cellTaken = new Square();
+            ISquare cellTaken = null;
             foreach (var square in squares)
             {
                 if (isTaken)
                 {
-                    if (!_position.SquareIsEmpty(square) && !square.IsEqualTo(startCell.Square)) break;
+                    if (!_position.SquareIsEmpty(square) && !square.IsEqualTo(startCell)) break;
                     takeMoves.Add(new TakeMove {CellTaken = cellTaken, CellToMove = square});
                 }
                 else
