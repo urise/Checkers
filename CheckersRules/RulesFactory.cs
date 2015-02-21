@@ -12,9 +12,14 @@ namespace CheckersRules
     {
         public IRules CreateCheckerRules(string positionStr, string currentColorStr)
         {
-            IPosition position = new Position(positionStr, currentColorStr);
-            IBoardGeometry boardGeometry = new BoardGeometry();
+            const int boardSize = 8;
+            
+            IPosition position = new Position(boardSize);
+            position.SetPosition(positionStr, currentColorStr);
+            
+            IBoardGeometry boardGeometry = new BoardGeometry(boardSize);
             IDirections directions = new Directions();
+            
             return new Rules(position, boardGeometry, directions);
         }
     }

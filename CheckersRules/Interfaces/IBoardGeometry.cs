@@ -11,5 +11,7 @@ namespace CheckersRules.Interfaces
     {
         IEnumerable<ISquare> GetCellsByDirection(ISquare square, IDirection direction, int distance);
         IEnumerable<ISquare> GetCellsByDirections(ISquare square, IEnumerable<IDirection> directions, int distance);
+        int FirstHorizontal();
+        int LastHorizontal();
     }
 }

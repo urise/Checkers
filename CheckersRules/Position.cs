@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using CheckersRules.Common;
@@ -12,8 +13,8 @@ namespace CheckersRules
     {
         #region Private Members
 
-        private const int BOARD_SIZE = 8;
-        private Cell[] _board = new Cell[BOARD_SIZE * BOARD_SIZE];
+        private int _boardSize;
+        private Cell[] _board;
 
         #endregion
 
@@ -21,21 +22,17 @@ namespace CheckersRules
 
         public PieceColor CurrentColor { get; private set; }
 
-        public Position(string positionStr, string currentColorStr)
+        public Position(int boardSize)
         {
-            InitBoard();
-            SetPosition(positionStr, currentColorStr);
-        }
-
-        private void InitBoard()
-        {
+            _boardSize = boardSize;
+            _board = new Cell[boardSize*boardSize];
             for (int i = 0; i < _board.Length; i++)
             {
                 _board[i] = new Cell();
             }
         }
 
-        private void SetPosition(string position, string currentColor)
+        public void SetPosition(string position, string currentColor)
         {
             if (string.IsNullOrEmpty(position)) throw new Exception("Position cannot be empty");
             if (string.IsNullOrEmpty(currentColor)) throw new Exception("Current color cannot be empty");
@@ -51,11 +48,6 @@ namespace CheckersRules
         public IEnumerable<Cell> GetCurrentColorCells()
         {
             return _board.Where(r => r.PieceColor == CurrentColor);
-        }
-
-        public bool IsTurnToKingHorizontal(int horizontal)
-        {
-            return horizontal == (CurrentColor == PieceColor.White ? BOARD_SIZE : 1);
         }
 
         public void SetColor(Square square, PieceColor color)
@@ -77,8 +69,8 @@ namespace CheckersRules
         {
             for (int i = 0; i < _board.Length; i++)
             {
-                _board[i].X = i % BOARD_SIZE + 1;
-                _board[i].Y = i / BOARD_SIZE + 1;
+                _board[i].X = i % _boardSize + 1;
+                _board[i].Y = i / _boardSize + 1;
                 _board[i].PieceType = PieceType.Empty;
                 _board[i].PieceColor = PieceColor.Empty;
             }
@@ -91,10 +83,10 @@ namespace CheckersRules
             if (vertical == -1)
                 throw new Exception("Wrong vertical char: " + cellStr);
             int horizontal = Convert.ToInt32(cellStr.Substring(2, 1)) - 1;
-            if (horizontal < 0 || horizontal >= BOARD_SIZE)
+            if (horizontal < 0 || horizontal >= _boardSize)
                 throw new Exception("Wrong horizontal char: " + cellStr);
-            _board[horizontal * BOARD_SIZE + vertical].PieceType = GetPieceByChar(cellStr[0]);
-            _board[horizontal*BOARD_SIZE + vertical].PieceColor = GetPieceColorByChar(cellStr[0]);
+            _board[horizontal * _boardSize + vertical].PieceType = GetPieceByChar(cellStr[0]);
+            _board[horizontal*_boardSize + vertical].PieceColor = GetPieceColorByChar(cellStr[0]);
         }
 
         private PieceType GetPieceByChar(char c)
@@ -134,7 +126,7 @@ namespace CheckersRules
 
         private int GetIndexByXY(int x, int y)
         {
-            return (y - 1)*BOARD_SIZE + x - 1;
+            return (y - 1)*_boardSize + x - 1;
         }
 
         private int GetIndexByCoordinates(Square square)
@@ -144,7 +136,7 @@ namespace CheckersRules
 
         private bool IsLegalCoordinates(int x, int y)
         {
-            return x >= 1 && x <= BOARD_SIZE && y >= 1 && y <= BOARD_SIZE;
+            return x >= 1 && x <= _boardSize && y >= 1 && y <= _boardSize;
         }
 
         #endregion

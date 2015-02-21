@@ -13,14 +13,16 @@ namespace CheckersRules
         private const int DEFAULT_BOARD_SIZE = 8;
         private int BoardSize { get; set; }
 
+        #region Public Methods
+
         public BoardGeometry()
         {
             BoardSize = DEFAULT_BOARD_SIZE;
         }
 
-        private Square AddDirection(ISquare square, IDirection direction)
+        public BoardGeometry(int boardSize)
         {
-            return new Square(square.X + direction.DirectionX, square.Y + direction.DirectionY);
+            BoardSize = boardSize;
         }
 
         public IEnumerable<ISquare> GetCellsByDirection(ISquare square, IDirection direction, int distance)
@@ -45,9 +47,30 @@ namespace CheckersRules
             return result;
         }
 
+        public int FirstHorizontal()
+        {
+            return 1;
+        }
+
+        public int LastHorizontal()
+        {
+            return BoardSize;
+        }
+
+        #endregion
+
+        #region Private Methods
+
         private bool IsLegal(ISquare square)
         {
             return square.X >= 1 && square.X <= BoardSize && square.Y >= 1 && square.Y <= BoardSize;
         }
+
+        private Square AddDirection(ISquare square, IDirection direction)
+        {
+            return new Square(square.X + direction.DirectionX, square.Y + direction.DirectionY);
+        }
+
+        #endregion
     }
 }

@@ -107,6 +107,11 @@ namespace CheckersRules
             _position.SetColor(cell.Square, color);
         }
 
+        private bool IsTurnToKingHorizontal(PieceColor color, int horizontal)
+        {
+            return horizontal == (color == PieceColor.White ? _boardGeometry.LastHorizontal() : _boardGeometry.FirstHorizontal());
+        }
+
         private void AddTakeMoves(List<string> moves, Cell cell, List<Square> alreadyTaken, string path)
         {
             var takeMoves = GetSingleTakeMoves(cell, alreadyTaken);
@@ -124,7 +129,7 @@ namespace CheckersRules
                 newAlreadyTaken.Add(takeMove.CellTaken);
 
                 var newPieceType = (cell.PieceType == PieceType.Simple &&
-                                    _position.IsTurnToKingHorizontal(takeMove.CellToMove.Y)
+                                    IsTurnToKingHorizontal(_position.CurrentColor, takeMove.CellToMove.Y)
                     ? PieceType.King
                     : cell.PieceType);
                 var newPiece = new Piece(newPieceType, cell.PieceColor);

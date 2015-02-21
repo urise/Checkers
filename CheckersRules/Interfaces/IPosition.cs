@@ -5,9 +5,9 @@ namespace CheckersRules.Interfaces
 {
     public interface IPosition
     {
+        void SetPosition(string position, string currentColor);
         IEnumerable<Cell> GetCurrentColorCells();
         PieceColor CurrentColor { get; }
-        bool IsTurnToKingHorizontal(int horizontal);
         void SetColor(Square square, PieceColor color);
         Cell GetCell(ISquare square);
     }
