@@ -16,25 +16,21 @@ namespace CheckersRules.Common
         public int X
         {
             get { return Square.X; }
-            set { Square.X = value; }
         }
 
         public int Y
         {
             get { return Square.Y; }
-            set { Square.Y = value; }
         }
 
         public PieceColor PieceColor
         {
             get { return Piece.Color; }
-            set { Piece.Color = value; }
         }
 
         public PieceType PieceType
         {
             get { return Piece.Type; }
-            set { Piece.Type = value; }
         }
 
         public Cell()
@@ -62,7 +58,7 @@ namespace CheckersRules.Common
 
         public bool IsOppositeColor(PieceColor color)
         {
-            return Piece.Color != PieceColor.Empty && Piece.Color != color;
+            return Piece.Color != color;
         }
     }
 }

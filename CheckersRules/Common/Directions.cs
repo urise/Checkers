@@ -26,7 +26,6 @@ namespace CheckersRules.Common
 
         public IEnumerable<IDirection> SimpleMoveDirections(PieceColor color)
         {
-            if (color == PieceColor.Empty) throw new Exception("There are no simple moves for empty color");
             var directionY = color == PieceColor.White ? 1 : -1;
             return _directions.Where(d => d.DirectionY == directionY).Select(r => (IDirection)r).AsEnumerable();;
         }

@@ -8,8 +8,6 @@ namespace CheckersRules.Interfaces
         void SetPosition(string position, string currentColor);
         IEnumerable<Cell> GetCurrentColorCells();
         PieceColor CurrentColor { get; }
-        void SetColor(ISquare square, PieceColor color);
-        Cell GetCell(ISquare square);
         bool SquareIsEmpty(ISquare square);
         bool SquareIsColor(ISquare square, PieceColor color);
     }

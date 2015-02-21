@@ -40,20 +40,14 @@ namespace CheckersRules
             return _cells.Where(r => r.PieceColor == CurrentColor);
         }
 
-        public void SetColor(ISquare square, PieceColor color)
-        {
-            var cell = GetCell(square);
-            cell.PieceColor = color;
-        }
-
-        public Cell GetCell(ISquare square)
+        private Cell GetCell(ISquare square)
         {
             return _cells.SingleOrDefault(c => c.Square.IsEqualTo(square));
         }
 
         public bool SquareIsEmpty(ISquare square)
         {
-            return !_cells.Any(c => c.PieceColor != PieceColor.Empty && c.Square.IsEqualTo(square));
+            return !_cells.Any(c => c.Square.IsEqualTo(square));
         }
 
         public bool SquareIsColor(ISquare square, PieceColor color)

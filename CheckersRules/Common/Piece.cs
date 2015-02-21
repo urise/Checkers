@@ -9,14 +9,12 @@ namespace CheckersRules.Common
 {
     public enum PieceType
     {
-        Empty,
         Simple,
         King
     };
 
     public enum PieceColor
     {
-        Empty,
         White,
         Black
     }
