@@ -32,9 +32,9 @@ namespace CheckersRules.Common
                 throw new Exception("Wrong horizontal char: " + str);
         }
 
-        public static Square operator +(Square square, IDirection direction)
+        public bool IsEqualTo(ISquare square)
         {
-            return new Square(square.X + direction.DirectionX, square.Y + direction.DirectionY);
+            return X == square.X && Y == square.Y;
         }
 
         public override string ToString()

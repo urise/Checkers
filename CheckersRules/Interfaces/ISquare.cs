@@ -8,7 +8,8 @@ namespace CheckersRules.Interfaces
 {
     public interface ISquare
     {
-        int X { get; }
-        int Y { get; }
+        int X { get; set; }
+        int Y { get; set; }
+        bool IsEqualTo(ISquare square);
     }
 }

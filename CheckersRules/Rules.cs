@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CheckersRules.Common;
+using CheckersRules.Helpers;
 using CheckersRules.Interfaces;
 
 namespace CheckersRules
@@ -65,9 +66,8 @@ namespace CheckersRules
         {
             foreach (var square in GetPossibleSimpleMoves(cell))
             {
-                var cellToMove = _position.GetCell(square);
-                if (cellToMove.PieceType == PieceType.Empty)
-                    moves.Add(cell + "-" + cellToMove);
+                if (_position.SquareIsEmpty(square))
+                    moves.Add(cell + "-" + square);
             }
         }
 
@@ -78,9 +78,8 @@ namespace CheckersRules
                 var squares = _boardGeometry.GetCellsByDirection(cell.Square, direction, 0);
                 foreach (var square in squares)
                 {
-                    var moveCell = _position.GetCell(square);
-                    if (moveCell.PieceColor != PieceColor.Empty) break;
-                    moves.Add(cell + "-" + moveCell);
+                    if (!_position.SquareIsEmpty(square)) break;
+                    moves.Add(cell + "-" + square);
                 }
             }
         }
@@ -103,7 +102,7 @@ namespace CheckersRules
         {
             var color = cell.PieceColor;
             _position.SetColor(cell.Square, PieceColor.Empty);
-            AddTakeMoves(moves, cell, new List<Square>(), string.Empty);
+            AddTakeMoves(moves, cell, new List<ISquare>(), string.Empty);
             _position.SetColor(cell.Square, color);
         }
 
@@ -112,7 +111,7 @@ namespace CheckersRules
             return horizontal == (color == PieceColor.White ? _boardGeometry.LastHorizontal() : _boardGeometry.FirstHorizontal());
         }
 
-        private void AddTakeMoves(List<string> moves, Cell cell, List<Square> alreadyTaken, string path)
+        private void AddTakeMoves(List<string> moves, Cell cell, List<ISquare> alreadyTaken, string path)
         {
             var takeMoves = GetSingleTakeMoves(cell, alreadyTaken);
             if (takeMoves.Count == 0 && !string.IsNullOrEmpty(path))
@@ -125,7 +124,7 @@ namespace CheckersRules
 
             foreach (var takeMove in takeMoves)
             {
-                var newAlreadyTaken = new List<Square>(alreadyTaken);
+                var newAlreadyTaken = new List<ISquare>(alreadyTaken);
                 newAlreadyTaken.Add(takeMove.CellTaken);
 
                 var newPieceType = (cell.PieceType == PieceType.Simple &&
@@ -139,7 +138,7 @@ namespace CheckersRules
             }
         }
 
-        private List<TakeMove> GetSingleTakeMoves(Cell cell, List<Square> alreadyTaken)
+        private List<TakeMove> GetSingleTakeMoves(Cell cell, List<ISquare> alreadyTaken)
         {
             int distance = cell.PieceType == PieceType.King ? 0 : 2;
             var result = new List<TakeMove>();
@@ -151,27 +150,26 @@ namespace CheckersRules
             return result;
         }
 
-        private void AddTakeMoves(List<TakeMove> takeMoves, Cell cell, IDirection direction, int distance, List<Square> alreadyTaken)
+        private void AddTakeMoves(List<TakeMove> takeMoves, Cell cell, IDirection direction, int distance, List<ISquare> alreadyTaken)
         {
             var squares = _boardGeometry.GetCellsByDirection(cell.Square, direction, distance);
             bool isTaken = false;
 
-            var cellTaken = new Square();
+            ISquare cellTaken = new Square();
             foreach (var square in squares)
             {
-                var moveCell = _position.GetCell(square);
                 if (isTaken)
                 {
-                    if (moveCell.PieceColor != PieceColor.Empty) break;
-                    takeMoves.Add(new TakeMove {CellTaken = cellTaken, CellToMove = moveCell.Square});
+                    if (!_position.SquareIsEmpty(square)) break;
+                    takeMoves.Add(new TakeMove {CellTaken = cellTaken, CellToMove = square});
                 }
                 else
                 {
-                    if (moveCell.IsOppositeColor(cell.PieceColor))
+                    if (_position.SquareIsColor(square, _position.CurrentColor.GetOppositeColor()))
                     {
-                        if (alreadyTaken.Contains(moveCell.Square)) break;
+                        if (alreadyTaken.Any(s => s.IsEqualTo(square))) break;
                         isTaken = true;
-                        cellTaken = moveCell.Square;
+                        cellTaken = square;
                     }
                 }
             }

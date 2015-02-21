@@ -14,7 +14,7 @@ namespace CheckersRules
         {
             const int boardSize = 8;
             
-            IPosition position = new Position(boardSize);
+            IPosition position = new Position();
             position.SetPosition(positionStr, currentColorStr);
             
             IBoardGeometry boardGeometry = new BoardGeometry(boardSize);

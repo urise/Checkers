@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CheckersRules.Helpers;
 
 namespace CheckersRules.Common
 {
@@ -32,5 +33,13 @@ namespace CheckersRules.Common
             Type = type;
             Color = color;
         }
+
+        public Piece(char c)
+        {
+            Type = c.ToPieceType();
+            Color = c.ToPieceColor();
+        }
+
+        
     }
 }

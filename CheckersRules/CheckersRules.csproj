@@ -46,6 +46,8 @@
     <Compile Include="Common\Piece.cs" />
     <Compile Include="Common\Square.cs" />
     <Compile Include="Common\TakeMove.cs" />
+    <Compile Include="Helpers\ConversionHelper.cs" />
+    <Compile Include="Helpers\PieceColorHelper.cs" />
     <Compile Include="Interfaces\IBoardGeometry.cs" />
     <Compile Include="Interfaces\IDirection.cs" />
     <Compile Include="Interfaces\IDirections.cs" />

@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using CheckersRules.Interfaces;
 
 namespace CheckersRules.Common
 {
     public class Cell
     {
-        public Square Square { get; private set; }
+        public ISquare Square { get; private set; }
         public Piece Piece { get; private set; }
 
         public int X
@@ -41,10 +43,16 @@ namespace CheckersRules.Common
             Piece = new Piece();
         }
 
-        public Cell(Square square, Piece piece)
+        public Cell(ISquare square, Piece piece)
         {
             Square = square;
             Piece = piece;
+        }
+
+        public Cell(string cellStr)
+        {
+            Square = new Square(cellStr.Substring(1));
+            Piece = new Piece(cellStr[0]);
         }
 
         public override string ToString()

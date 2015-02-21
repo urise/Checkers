@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CheckersRules.Interfaces;
 
 namespace CheckersRules.Common
 {
     public struct TakeMove
     {
-        public Square CellToMove;
-        public Square CellTaken;
+        public ISquare CellToMove;
+        public ISquare CellTaken;
     }
 }

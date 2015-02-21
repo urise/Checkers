@@ -40,6 +40,15 @@ namespace UnitTests.CheckersRules
         }
 
         [Test]
+        public void OneStepTakeOnePieceTest()
+        {
+            var rulesFactory = new RulesFactory();
+            var rules = rulesFactory.CreateCheckerRules("wc3;bb2", "w");
+            var moves = rules.GetMoveList();
+            CollectionAssert.AreEquivalent(new List<string> { "c3-a1" }, moves);
+        }
+
+        [Test]
         public void OneStepTakeSimpleTest()
         {
             var rulesFactory = new RulesFactory();
