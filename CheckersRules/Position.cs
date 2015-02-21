@@ -30,6 +30,7 @@ namespace CheckersRules
             {
                 _board[i] = new Cell();
             }
+            ClearPosition();
         }
 
         public void SetPosition(string position, string currentColor)
@@ -79,14 +80,10 @@ namespace CheckersRules
         private void SetCell(string cellStr)
         {
             if (cellStr.Length != 3) throw new Exception("Wrong format: " + cellStr);
-            int vertical = Constants.CoordinateCharacters.IndexOf(cellStr[1]);
-            if (vertical == -1)
-                throw new Exception("Wrong vertical char: " + cellStr);
-            int horizontal = Convert.ToInt32(cellStr.Substring(2, 1)) - 1;
-            if (horizontal < 0 || horizontal >= _boardSize)
-                throw new Exception("Wrong horizontal char: " + cellStr);
-            _board[horizontal * _boardSize + vertical].PieceType = GetPieceByChar(cellStr[0]);
-            _board[horizontal*_boardSize + vertical].PieceColor = GetPieceColorByChar(cellStr[0]);
+            var square = new Square(cellStr.Substring(1));
+            var index = GetIndexByCoordinates(square);
+            _board[index].PieceType = GetPieceByChar(cellStr[0]);
+            _board[index].PieceColor = GetPieceColorByChar(cellStr[0]);
         }
 
         private PieceType GetPieceByChar(char c)
