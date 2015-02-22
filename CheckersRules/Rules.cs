@@ -100,10 +100,7 @@ namespace CheckersRules
 
         private void AddTakeMoves(List<string> moves, Cell cell)
         {
-            var color = cell.Color;
-            //_position.SetColor(cell.Square, Color.Empty);
-            AddTakeMoves(cell, moves, cell, new List<ISquare>(), string.Empty);
-            //_position.SetColor(cell.Square, color);
+            AddTakeMoves(new FindTakeMovesParameter(cell), moves, cell, string.Empty);
         }
 
         private bool IsTurnToKingHorizontal(PieceColor color, int horizontal)
@@ -111,9 +108,9 @@ namespace CheckersRules
             return horizontal == (color == PieceColor.White ? _boardGeometry.LastHorizontal() : _boardGeometry.FirstHorizontal());
         }
 
-        private void AddTakeMoves(Cell startCell, List<string> moves, Cell cell, List<ISquare> alreadyTaken, string path)
+        private void AddTakeMoves(FindTakeMovesParameter takeMoveInfo, List<string> moves, Cell cell, string path)
         {
-            var takeMoves = GetSingleTakeMoves(startCell, cell, alreadyTaken);
+            var takeMoves = GetSingleTakeMoves(takeMoveInfo, cell);
             if (takeMoves.Count == 0 && !string.IsNullOrEmpty(path))
             {
                 moves.Add(path);
@@ -124,55 +121,58 @@ namespace CheckersRules
 
             foreach (var takeMove in takeMoves)
             {
-                var newAlreadyTaken = new List<ISquare>(alreadyTaken);
-                newAlreadyTaken.Add(takeMove.CellTaken);
+                takeMoveInfo.AddAlreadyTaken(takeMove.SquareTaken);
 
                 var newPieceType = (cell.Type == PieceType.Simple &&
-                                    IsTurnToKingHorizontal(_position.CurrentColor, takeMove.CellToMove.Y)
+                                    IsTurnToKingHorizontal(_position.CurrentColor, takeMove.SquareToMove.Y)
                     ? PieceType.King
                     : cell.Type);
                 var newPiece = new Piece(newPieceType, cell.Color);
-                var newCell = new Cell(takeMove.CellToMove, newPiece);
+                var newCell = new Cell(takeMove.SquareToMove, newPiece);
 
-                AddTakeMoves(startCell, moves, newCell, newAlreadyTaken, path + "-" + takeMove.CellToMove);
+                AddTakeMoves(takeMoveInfo, moves, newCell, path + "-" + takeMove.SquareToMove);
+                takeMoveInfo.RemoveLastAlreadyTaken();
             }
         }
 
-        private List<TakeMove> GetSingleTakeMoves(Cell startCell, Cell cell, List<ISquare> alreadyTaken)
+        private List<TakeMove> GetSingleTakeMoves(FindTakeMovesParameter takeMoveInfo, Cell cell)
         {
-            int distance = cell.Type == PieceType.King ? 0 : 2;
             var result = new List<TakeMove>();
             foreach (var direction in _directions.AllDirections())
             {
-                AddTakeMoves(startCell, result, cell, direction, distance, alreadyTaken);
+                result.AddRange(AddTakeMoves(takeMoveInfo, cell, direction));
             }
             
             return result;
         }
 
-        private void AddTakeMoves(Cell startCell, List<TakeMove> takeMoves, Cell cell, IDirection direction, int distance, List<ISquare> alreadyTaken)
+        private IEnumerable<TakeMove> AddTakeMoves(FindTakeMovesParameter takeMoveInfo, Cell cell, IDirection direction)
         {
+            int distance = cell.Type == PieceType.King ? 0 : 2;
             var squares = _boardGeometry.GetCellsByDirection(cell, direction, distance);
             bool isTaken = false;
+            
+            var result = new List<TakeMove>();
 
             ISquare cellTaken = null;
             foreach (var square in squares)
             {
                 if (isTaken)
                 {
-                    if (!_position.SquareIsEmpty(square) && !square.IsEqualTo(startCell)) break;
-                    takeMoves.Add(new TakeMove {CellTaken = cellTaken, CellToMove = square});
+                    if (!_position.SquareIsEmpty(square) && !square.IsEqualTo(takeMoveInfo.StartCell)) break;
+                    result.Add(new TakeMove {SquareTaken = cellTaken, SquareToMove = square});
                 }
                 else
                 {
-                    if (_position.SquareIsColor(square, _position.CurrentColor.GetOppositeColor()))
+                    if (_position.SquareIsColor(square, takeMoveInfo.StartCell.Color.GetOppositeColor()))
                     {
-                        if (alreadyTaken.Any(s => s.IsEqualTo(square))) break;
+                        if (takeMoveInfo.IsAlreadyTaken(square)) break;
                         isTaken = true;
                         cellTaken = square;
                     }
                 }
             }
+            return result;
         }
 
         #endregion

@@ -9,7 +9,7 @@ namespace CheckersRules.Common
 {
     public struct TakeMove
     {
-        public ISquare CellToMove;
-        public ISquare CellTaken;
+        public ISquare SquareToMove;
+        public ISquare SquareTaken;
     }
 }
